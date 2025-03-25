@@ -2,26 +2,28 @@
   # ---- SYSTEM SETTINGS ---- #
   systemSettings = {
     system = "x86_64-linux"; # arch
-    hostname = "old-theo"; # hostname
+    hostname = "hostname"; # hostname
     profile = "main"; # profile
     timezone = "America/Chicago"; # time
     locale = "en_US.UTF-8"; # locale
     bootMode = "uefi"; # uefi or bios
     bootMountPath = "/boot"; # mount path for efi boot partition; only used for uefi boot mode
     grubDevice = ""; # device identifier for grub; only used for bios boot mode
-    graphicsDriver = "nouveau"; # nouveau or nvidia
+    graphicsDriver = "nvidia"; # nouveau or nvidia
     nvidiaVersion = "stable"; # driver version, ONLY IF graphicsDriver IS NVIDIA, check - https://nixos.wiki/wiki/Nvidia
-    desktopEnvoirment = "hyprland"; # DE, kde or hyprland
+    desktopEnvironment = "hyprland"; # DE/WM, kde, i3, or hyprland
   };
   # ----- USER SETTINGS ----- #
   userSettings = {
     username = "USERNAME"; # username
     name = "NAME"; # name
     dotfilesDir = "~/.nixos-config"; # path of local dotfiles 
-    term = "alacritty";
+    term = "ghostty";
     editor = "neovim"; # neovim; default editor
-    theme = "nord"; # theme name from themes folder
-    background = "1"; # background number, most themes ONLY HAVE ONE background
+    theme = "gruvbox-material-dark-soft"; # theme name from themes folder
+    primaryAccentColor = "D"; # a hex of your base16 theme
+    secondaryAccentColor = "E"; # a hex of your base16 theme
+    background = "1.png"; # background number and filetype
     font = "JetBrainsMono Nerd Font"; # font
 
     # the following settings are for hyprland only

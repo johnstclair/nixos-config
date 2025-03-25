@@ -1,0 +1,19 @@
+window.SidePanel {
+  background: transparent;
+  color: $fg;
+  font-weight: bold;
+
+  >centerbox {
+    background: $bg;
+    border: 2px $secondary-accent solid;
+    border-right: 0px;
+    border-radius:  5px 0px 0px 5px;
+    margin: 5px;
+    margin-right: 0px;
+    padding: 5px;
+  }
+
+  button {
+    background: $red;
+  }
+}

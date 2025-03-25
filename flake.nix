@@ -1,11 +1,11 @@
 {
-  description = "John's NixOS Configuration Files";
+  description = "johnstclair's NixOS Configuration Files";
 
   inputs = {
 
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable = { url = "github:nixos/nixpkgs/nixos-unstable"; };
-    nixpkgs-stable = { url = "github:nixos/nixpkgs/nixos-24.05"; };
+    nixpkgs-stable = { url = "github:nixos/nixpkgs/nixos-24.11"; };
 
     home-manager-unstable = {
       url = "github:nix-community/home-manager/master";
@@ -17,11 +17,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    xremap-flake.url = "github:xremap/nix-flake";
-
     stylix.url = "github:danth/stylix";
 
-    zen-browser.url = "github:MarceColl/zen-browser-flake";
+    ags = {
+      url = "github:Aylur/ags";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     hypr-contrib.url = "github:hyprwm/contrib";
     hyprpicker.url = "github:hyprwm/hyprpicker";
@@ -30,6 +36,8 @@
       url = "https://github.com/hyprwm/Hyprland";
       submodules = true;
     };
+
+    ghostty.url = "github:ghostty-org/ghostty";
   };
 
   outputs = inputs@{ self, ... }:
@@ -53,6 +61,7 @@
 
       modules = [
         ./profiles/default.nix
+        ./profiles/updater.nix
       ];
 
  	    specialArgs = {
@@ -61,6 +70,18 @@
         inherit inputs;
 	    };
       };
+
+      iso = lib.nixosSystem {
+        specialArgs = { 
+          inherit inputs;
+          inherit userSettings;
+          inherit systemSettings;
+       };
+
+        modules = [
+          ./profiles/iso/configuration.nix
+        ];
+        };
     };
 
     homeConfigurations = {
@@ -68,7 +89,8 @@
     	inherit pkgs;
 
         modules = [
-    	  (./. + "/profiles" + ("/" + systemSettings.profile) + "/home.nix")
+    	    (./. + "/profiles" + ("/" + systemSettings.profile) + "/home.nix")
+          ./profiles/updater.nix
         ];
 
 	    extraSpecialArgs = {

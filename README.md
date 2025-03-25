@@ -30,16 +30,16 @@ Feel free to look and copy what I have setup.
 
 ## Preview
 
-![Catppuccin Fullscreen Preview](./docs/screenshots/full.png)
+![Gruvbox Fullscreen Preview](./docs/screenshots/full.png)
 
 <details>
 <summary>Other Screenshots</summary>
 <br>
 <div align="center">
   
-![Terminal Windows](./docs/screenshots/term.png)
-![D Menu](./docs/screenshots/d_menu.png)
-![SwayNC](./docs/screenshots/swaync.png)
+![Old Catppuccin Terminal Windows](./docs/screenshots/term.png)
+![D Menu](./docs/screenshots/dmenu_tui.png)
+![SwayNC](./docs/screenshots/controlpanel.png)
 
 </div>
   
@@ -50,27 +50,28 @@ Feel free to look and copy what I have setup.
 ```
 .
 ├── profiles     # configurations seperated into profiles
-├── modules      # system and home modules
-|   ├── system   # system module files
-|   ├── home     # home module files
+├── core         # system module files
+├── home         # home module files
 ├── themes       # storage for theme files
+├── docs         # image storage for the repo
 ```
 
 ## Components
 
+*note, the following table lists features for the hyprland setup, but you can easily switch to use i3/kde*
 | Component                   | Description                                     |
 | --------------------------- | :---------------------------------------------  |
-| **Window Manager**          | hyprland (or kde if you want)                   |
-| **Terminal Emulator**       | alacritty                                       |
-| **Browser**                 | firefox                                         |
+| **Window Manager**          | hyprland                                        |
+| **Terminal Emulator**       | ghostty/alacritty/kitty                         |
+| **Browser**                 | firefox/qt                                      |
 | **Bar**                     | waybar                                          |
-| **Application Launcher**    | wofi                                            |
+| **Application Launcher**    | sway-application-launcher                       |
 | **Notification Daemon**     | swaync                                          |
 | **Display Manager**         | sddm                                            |
 | **Theme**                   | easy to change                                  |
 | **Shell**                   | zsh + starship                                  |
 | **Sytem Resource Manager**  | htop                                            |
-| **File Manager**            | dolphin                                         |
+| **File Manager**            | yazi                                            |
 | **Text Editor**             | neovim                                          |
 | **Screenshot Software**     | grimblast                                       |
 
@@ -79,7 +80,7 @@ Feel free to look and copy what I have setup.
 - **Abstracted Settings File**: Use and sync the same config across multiple computers, while keeping settings like graphics drivers and themes unique
 - **Nix Flakes**: Extremely easy to reproduce on your machine
 - **Full IDE Neovim Config**: Presetup neovim, ready for developing
-- **Hyprland Rice**: Setup with a visually pleasing, highly customizable and functional window manager
+- **Hyprland Rice**: Setup with a visually pleasing, highly customizable, and functional window manager
   
 ## Installation
 
@@ -107,16 +108,31 @@ zsh
 
 6. Rebuild home using `nh home switch -b backup -c user ~/.nixos-config` then reboot
 
-7. Profit? Maybe enjoy is a better word choice here.
+7. Profit? Maybe enjoy is a better word here.
 
 > [!NOTE]
-> I have not tested these exact steps, these are just what I believe should get you up and running with my dots. If these don't work, it should still be straight forward to install, but PLEASE open an issue you experince any problems.
+> If you have issues with these installation steps, please contact me, or open an issue.
+
+#### Extra Setup Steps
+
+To setup [SearXNG](https://github.com/searxng/searxng), a metasearch engine, you need to:
+
+1. Create the file `~/.searxng.env`
+2. Make the contents of the file be:
+```
+SEARXNG_SECRET=ultrasecretkey
+```
+3. Run `sudo -H sed -i -e "s/ultrasecretkey/$(openssl rand -hex 16)/g" \ "~/.searxng.env"`
 
 ### Important Commands
 
-`update-system`: Alias for `nh os switch -H system ~/.nixos-config`, updates the system. Requires sudo 
+`update-system`: Alias for `nh os switch -H system ~/.nixos-config`, updates and switches the system. Requires sudo 
 
 `update-home`: Alias for `nh home switch -b backup -c user ~/.nixos-config`, updates the home-manager config
+
+`update-boot`: Alias for `nh os boot -H system ~/.nixos-config`, updates the system but does not activate the update. Requires sudo
+
+`update-theme`: Calls update home, but adds in extra commands to restart the wallpaper service, reload programs css, etc.
 
 ## Resources
 

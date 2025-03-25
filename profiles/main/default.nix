@@ -1,11 +1,18 @@
-{ config, pkgs, userSettings, systemSettings, inputs, ... }:
+{ config, options, pkgs, userSettings, systemSettings, inputs, ... }:
 
 {
   imports =
     [
-      ../../modules/system/de/default.nix # desktop envoirment
-      ../../modules/system/graphics/${systemSettings.graphicsDriver}.nix 
-      ../../modules/system/steam/default.nix # steam
+      ../../core/wm/default.nix # desktop environment
+
+      ../../core/hardware/graphics/${systemSettings.graphicsDriver}.nix 
+
+      ../../core/services/searxng.nix # metasearch engine
+
+      ../../core/app/steam.nix # steam
+
+      ../../core/cli/ollama.nix # llms
+      ../../core/cli/docker.nix # docker
     ];
 
   # bootloader
@@ -16,9 +23,10 @@
   boot.loader.grub.enable = if (systemSettings.bootMode == "uefi") then false else true;
   boot.loader.grub.device = systemSettings.grubDevice; # does nothing if running uefi rather than bios
 
-
   # flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  powerManagement.enable = true;
 
   # networking
   networking.hostName = systemSettings.hostname;
@@ -42,14 +50,24 @@
     LC_TIME = systemSettings.locale;
   };
 
-  # Window Stuff
+  services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.enable = true;
+  # services.displayManager.ly = {
+  #   enable = true;
+  #   settings = {
+  #     animation = "doom";
+  #     blank_box = false;
+  #     bg = "0x00FF00FF";
+  #   };
+  # };
+
+  services.xserver.enable = true;
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -64,39 +82,135 @@
     extraGroups = [ "networkmanager" "wheel" ];
   };
 
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+
   # zsh setup
   environment.shells = with pkgs; [ zsh ];
   users.defaultUserShell = pkgs.zsh;
   programs.zsh.enable = true;
-
-  # Install firefox.
-  programs.firefox.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   # Accept Nvidia terms for drivers
   nixpkgs.config.nvidia.acceptLicense = true;
 
-  # xremap stuff
   hardware.uinput.enable = true;
   users.groups.uinput.members = [ userSettings.username ];
   users.groups.input.members = [ userSettings.username ];
+
+  # TODO: remove this
+  programs.nix-ld.enable = true;
+  # https://github.com/nix-community/nix-index-database
+  programs.nix-ld.libraries = options.programs.nix-ld.libraries.default ++ (with pkgs; [
+        stdenv.cc.cc
+        openssl
+        xorg.libXcomposite
+        xorg.libXtst
+        xorg.libXrandr
+        xorg.libXext
+        xorg.libX11
+        xorg.libXfixes
+        libGL
+        libva
+        xorg.libxcb
+        xorg.libXdamage
+        xorg.libxshmfence
+        xorg.libXxf86vm
+        libelf
+        
+        # Required
+        glib
+        gtk2
+        bzip2
+        
+        # Without these it silently fails
+        xorg.libXinerama
+        xorg.libXcursor
+        xorg.libXrender
+        xorg.libXScrnSaver
+        xorg.libXi
+        xorg.libSM
+        xorg.libICE
+        # gnome2.GConf
+        nspr
+        nss
+        cups
+        libcap
+        SDL2
+        libusb1
+        dbus-glib
+        ffmpeg
+        # Only libraries are needed from those two
+        libudev0-shim
+        
+        # Verified games requirements
+        xorg.libXt
+        xorg.libXmu
+        libogg
+        libvorbis
+        SDL
+        SDL2_image
+        glew110
+        libidn
+        tbb
+        
+        # Other things from runtime
+        flac
+        freeglut
+        libjpeg
+        libpng
+        libpng12
+        libsamplerate
+        libmikmod
+        libtheora
+        libtiff
+        pixman
+        speex
+        SDL_image
+        SDL_ttf
+        SDL_mixer
+        SDL2_ttf
+        SDL2_mixer
+        # libdbusmenu-gtk2
+        libindicator-gtk2
+        libcaca
+        libcanberra
+        libgcrypt
+        libvpx
+        librsvg
+        xorg.libXft
+        libvdpau
+        pango
+        cairo
+        atk
+        gdk-pixbuf
+        fontconfig
+        freetype
+        dbus
+        alsa-lib
+        expat
+        # Needed for electron
+        libdrm
+        mesa
+        libxkbcommon
+        gtk3.out
+  ]);
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "SDL_ttf-2.0.11"
+  ];
 
   environment.systemPackages = with pkgs; [
     vim
     nh
     zsh
     git
-    nodejs
-    python3
-    gparted
-    appimage-run
-    balena-cli
-    chromium
+    bc
   ];
 
   fonts.packages = with pkgs; [
-    nerdfonts
+    nerd-fonts.jetbrains-mono
   ];
 
   system.stateVersion = "24.05"; # Did you read the comment? -- No
