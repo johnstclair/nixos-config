@@ -8,20 +8,23 @@
 
   imports = [
     ( ../../home/wm/${systemSettings.desktopEnvironment}/default.nix ) # hyprland
-    ../../home/shell/default.nix # zsh config
-    ../../home/nixvim/default.nix # neovim
-    ../../home/style/stylix.nix # styles
-    ( ../../home/terminal/${userSettings.term}.nix ) # terminal
 
-    ../../home/design/inkscape.nix # inkscape 
-    ../../home/browser/default.nix # browser
-    ../../home/code.nix # i swear i only use it for bqn/uiua
+    ../../home/style/stylix.nix # styles
+
+    ( ../../home/app/terminal/${userSettings.term}.nix ) # terminal
+    ../../home/app/communication/default.nix # discord and slack
+    ../../home/app/browser/default.nix # browser
+    ../../home/app/code.nix # i swear i only use it for bqn/uiua
 
     ../../home/cli/tools.nix # cli tools
+    ../../home/cli/rice.nix # programs commonly featured in rices
     ../../home/cli/git.nix # git settings
     ../../home/cli/zoxide.nix # better cd
+    ../../home/cli/shell.nix # zsh config
 
+    ../../home/tui/nixvim/default.nix # neovim
     ../../home/tui/yazi.nix # file explorer
+    ../../home/tui/misc.nix # misc tui apps
 
     ../../home/languages/cc/cc.nix # c compiler
     ../../home/languages/rust/rust.nix # rustup

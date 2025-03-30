@@ -1,7 +1,11 @@
 { pkgs, ... } : {
+  imports = [
+    ./cava.nix
+  ];
+
   home.packages = with pkgs; [
     lolcat cowsay 
-    cava cmatrix cbonsai pipes
+    cmatrix cbonsai pipes
     onefetch disfetch
   ];
 }

@@ -1,6 +1,6 @@
-{ config, options, pkgs, userSettings, systemSettings, inputs, ... }:
-
-{
+{ config, options, pkgs, userSettings, systemSettings, inputs, ... } : let 
+     tokyo-night-sddm = pkgs.libsForQt5.callPackage ../../pkgs/tokyo-night-sddm-theme.nix { };
+in {
   imports =
     [
       ../../core/wm/default.nix # desktop environment
@@ -13,6 +13,7 @@
 
       ../../core/cli/ollama.nix # llms
       ../../core/cli/docker.nix # docker
+
     ];
 
   # bootloader
@@ -31,6 +32,11 @@
   # networking
   networking.hostName = systemSettings.hostname;
   networking.networkmanager.enable = true;
+
+  networking.firewall = rec {
+    allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
+    allowedUDPPortRanges = allowedTCPPortRanges;
+  };
 
   # timezone
   time.timeZone = systemSettings.timezone;
@@ -52,6 +58,7 @@
 
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.theme = "tokyo-night-sddm"; 
   # services.displayManager.ly = {
   #   enable = true;
   #   settings = {
@@ -207,6 +214,7 @@
     zsh
     git
     bc
+    tokyo-night-sddm
   ];
 
   fonts.packages = with pkgs; [

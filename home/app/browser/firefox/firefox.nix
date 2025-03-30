@@ -1,4 +1,7 @@
 { systemSettings, inputs, ... } : {
+  imports = [
+    ./tridactyl.nix
+  ];
   programs.firefox = {
     enable = true;
     policies = {
@@ -37,6 +40,9 @@
         ];
         Default = "SearXNG";
       };
+      preferences = {
+        "accessibility.typeaheadfind.manual" = false;
+      };
     };
 
     profiles.default = {
@@ -47,14 +53,17 @@
         search-by-image
         darkreader
       ];
-      bookmarks = [
-        {
-          name = "glance";
-          tags = [ "feed" ];
-          keyword = "glance";
-          url = "0.0.0.0:5678";
-        }
-      ];
+      bookmarks = {
+        force = true;
+        settings = [
+          {
+            name = "glance";
+            tags = [ "feed" ];
+            keyword = "glance";
+            url = "0.0.0.0:5678";
+          }
+        ];
+      };
     };
   };
 }

@@ -1,6 +1,6 @@
 {inputs, systemSettings, ... } : {
   imports = [
     ./qutebrowser/default.nix
-    ./firefox.nix
+    ./firefox/firefox.nix
   ];
 }

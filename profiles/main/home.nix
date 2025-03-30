@@ -31,6 +31,7 @@
     ../../home/tui/misc.nix # misc tui apps
 
     ../../home/service/glance/glance.nix # feed agrogater client
+    ../../home/service/kdeconnect.nix # connect to phone
 
     ../../home/languages/cc/cc.nix # c compiler
     ../../home/languages/rust/rust.nix # rustup

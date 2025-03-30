@@ -5,4 +5,11 @@
   ];
 
   nixpkgs.hostPlatform = systemSettings.system;
+
+  environment.systemPackages = with pkgs; [
+    vim
+    nh
+    zsh
+    git
+  ];
 }

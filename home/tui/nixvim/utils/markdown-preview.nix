@@ -1,9 +1,9 @@
-{
+{ userSettings, ... } : {
   programs.nixvim = {
   plugins.markdown-preview = {
     enable = true;
     settings = {
-      browser = "floorp";
+      browser = "firefox";
       theme = "dark";
     };
   };

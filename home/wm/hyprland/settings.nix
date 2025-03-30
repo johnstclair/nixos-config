@@ -9,15 +9,21 @@ in
         # "hyprctl dispatch exec '[workspace 1 silent] ${userSettings.term} -e nmtui-connect'"
         # "systemctl --user restart hyprpaper.service"
         "pomodoro 25 5 &"
+        "kdeconnectd&"
+        "sleep 2s && kdeconnect-indicator&"
         "waybar"
         "swaync"
       ];
 
-      windowrulev2 = [
+      windowrule = [
         "tag +launcher, class:^(launcher.launcher.launcher)$"
         "float, tag:launcher*"
         "stayfocused, tag:launcher*"
         "size 600 400, tag:launcher*"
+
+        "tag +tridactyl, class:^(tridactyl.tridactyl.tridactyl)$"
+        "float, tag:tridactyl*"
+        "size 800 1000, tag:tridactyl*"
       ];
 
       input = {

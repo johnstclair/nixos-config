@@ -118,6 +118,14 @@
         action = "colorscheme";
         options.desc = "Colorscheme preview";
       };
+      "<leader>ss" = {
+        action = "lsp_document_symbols";
+        options.desc = "Document symbols";
+      };
+      "<leader>sS" = {
+        action = "lsp_workspace_symbols";
+        options.desc = "Workspace symbols";
+      };
     };
   };
   keymaps = [

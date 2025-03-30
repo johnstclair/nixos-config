@@ -108,7 +108,7 @@ zsh
 
 6. Rebuild home using `nh home switch -b backup -c user ~/.nixos-config` then reboot
 
-7. Profit? Maybe enjoy is a better word here.
+7. Profit? Maybe enjoy is a better word choice here.
 
 > [!NOTE]
 > If you have issues with these installation steps, please contact me, or open an issue.

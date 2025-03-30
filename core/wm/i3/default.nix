@@ -1,11 +1,9 @@
-{
-  pkgs,
-  ...
-}:
+{ userSettings, pkgs, ... } : {
+  programs.dconf.enable = true;
 
-{
-  environment.pathsToLink = [ "/libexec" ]; # links /libexec from derivations to /run/current-system/sw
-  services.dbus.packages = with pkgs; [ dconf ];
+  fonts.packages = with pkgs; [
+    font-awesome
+  ];
 
   services.xserver = {
     enable = true;
@@ -16,18 +14,18 @@
         xclip
         autotiling
         feh
-        picom-next
+        picom
       ];
     };
 
     desktopManager.xterm.enable = false;
     excludePackages = [ pkgs.xterm ];
 
-    dpi = 120;
+    dpi = 94 * userSettings.xserverDisplaySizeMultipler;
     upscaleDefaultCursor = true;
 
     autorun = false;
-    displayManager.startx.enable = true;
+    displayManager.startx.enable = false;
     displayManager.lightdm.enable = false;
   };
 

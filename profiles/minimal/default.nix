@@ -1,12 +1,12 @@
-{ config, options, pkgs, userSettings, systemSettings, inputs, ... }:
-
-{
+{ config, options, pkgs, userSettings, systemSettings, inputs, ... } : let 
+     tokyo-night-sddm = pkgs.libsForQt5.callPackage ../../pkgs/tokyo-night-sddm-theme.nix { };
+in {
   imports =
     [
-      ../../system/wm/default.nix # window manager
-      ../../system/graphics/${systemSettings.graphicsDriver}.nix 
+      ../../core/wm/default.nix # desktop environment
 
-      ../../system/cli/tools.nix # cli tools
+      ../../core/hardware/graphics/${systemSettings.graphicsDriver}.nix 
+      ../../core/hardware/battery/upower.nix # battery stuff
     ];
 
   # bootloader
@@ -25,6 +25,11 @@
   # networking
   networking.hostName = systemSettings.hostname;
   networking.networkmanager.enable = true;
+
+  networking.firewall = rec {
+    allowedTCPPortRanges = [ { from = 1714; to = 1764; } ];
+    allowedUDPPortRanges = allowedTCPPortRanges;
+  };
 
   # timezone
   time.timeZone = systemSettings.timezone;
@@ -46,6 +51,16 @@
 
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.enable = true;
+  services.displayManager.sddm.theme = "tokyo-night-sddm"; 
+  # services.displayManager.ly = {
+  #   enable = true;
+  #   settings = {
+  #     animation = "doom";
+  #     blank_box = false;
+  #     bg = "0x00FF00FF";
+  #   };
+  # };
+
   services.xserver.enable = true;
 
   # Enable CUPS to print documents.
@@ -66,6 +81,9 @@
     description = userSettings.name;
     extraGroups = [ "networkmanager" "wheel" ];
   };
+
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
 
   # zsh setup
   environment.shells = with pkgs; [ zsh ];
@@ -188,9 +206,8 @@
     nh
     zsh
     git
-    imagemagick
     bc
-    libnotify
+    tokyo-night-sddm
   ];
 
   fonts.packages = with pkgs; [
