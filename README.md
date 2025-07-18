@@ -24,10 +24,10 @@
 NixOS Config Files
 </h1>
 </div>
-
+ 
 These files are nothing too special and for the most part very simple, but have a couple cool features.
 Feel free to look and copy what I have setup.
-
+ 
 ## Preview
 
 ![Gruvbox Fullscreen Preview](./docs/screenshots/full.png)
@@ -94,15 +94,10 @@ zsh
 
 2. Clone this repo into your home directory, rename it ".nixos-config"
 
-3. Setup the settings, to do this:
-    1. Copy the file `nixos-config-settings-template.nix` and rename it to `nixos-config-settings.nix`
-    2. Run `git add --intent-to-add nixos-config-settings.nix` then `git update-index --assume-unchanged nixos-config-settings.nix`
-        - This will allow you have different system settings between multiple computers, even if you sync everything else between those computers. By forcing git to ignore your new settings file
-    3. Actually configure your settings
+3. Setup the settings, open up `./nixos-config-settings.nix`, and change everything to fit your needs
 
 4. Setup your hardware configuration
-    1. Copy your hardware config into your local dotfiles dir `cp /etc/nixos/hardware-configuration.nix ~/.nixos-config/hardware-configuration.nix`
-    2. Tell git to track, but not add, the file, (like above) `git add --intent-to-add hardware-configuration.nix` then `git update-index --assume-unchanged hardware-configuration.nix`
+    - Copy your hardware config into your local dotfiles dir `cp /etc/nixos/hardware-configuration.nix ~/.nixos-config/hardware-configuration.nix`
 
 5. Rebuild using `nh os switch -H system ~/.nixos-config -- --experimental-features 'nix-command flakes'`, then reboot
 
